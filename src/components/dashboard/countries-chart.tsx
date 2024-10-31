@@ -24,11 +24,12 @@ const GET_COUNTRIES = gql`
 const CountriesChart = () => {
   const { loading, error, data } = useQuery(GET_COUNTRIES);
 
+  console.log(data, 'data');
+
   if (loading) return <div className="text-center p-4">Loading...</div>;
   if (error)
     return <div className="text-center p-4">Error: {error.message}</div>;
 
-  // Process data for visualization
   const continentData = data.countries.reduce((acc: any, country: any) => {
     const continent = country.continent.name;
     acc[continent] = (acc[continent] || 0) + 1;

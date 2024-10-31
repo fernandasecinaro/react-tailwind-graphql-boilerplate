@@ -18,7 +18,7 @@ export default function Home() {
           <div className="max-w-6xl mx-auto">
             <h1 className="text-2xl font-bold mb-8">Countries Dashboard</h1>
             <div className="grid gap-8">
-              <CountriesChart />
+              {/* <CountriesChart /> */}
               <CountriesList />
             </div>
           </div>
