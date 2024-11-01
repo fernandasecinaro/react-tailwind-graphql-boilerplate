@@ -1,4 +1,4 @@
-import { useQuery, gql } from '@apollo/client';
+import { useQuery } from '@apollo/client';
 import {
   BarChart,
   Bar,
@@ -8,21 +8,10 @@ import {
   Tooltip,
   ResponsiveContainer,
 } from 'recharts';
-
-const GET_COUNTRIES = gql`
-  query GetCountries {
-    countries {
-      code
-      name
-      continent {
-        name
-      }
-    }
-  }
-`;
+import { GET_COUNTRIES_CHART } from '../graphql/get-countries-chart';
 
 const CountriesChart = () => {
-  const { loading, error, data } = useQuery(GET_COUNTRIES);
+  const { loading, error, data } = useQuery(GET_COUNTRIES_CHART);
 
   console.log(data, 'data');
 

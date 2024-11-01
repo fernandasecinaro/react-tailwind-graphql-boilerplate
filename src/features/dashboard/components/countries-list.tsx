@@ -1,23 +1,14 @@
-import { useQuery, gql } from '@apollo/client';
-
-const GET_COUNTRIES = gql`
-  query GetCountries {
-    countries {
-      code
-      name
-      continent {
-        name
-      }
-      languages {
-        name
-      }
-      capital
-    }
-  }
-`;
+import { useState } from 'react';
+import { useQuery } from '@apollo/client';
+import { Country } from '../types/country';
+import CountryModal from './country-modal';
+import { GET_COUNTRIES_LIST } from '../graphql/get-countries-list';
 
 const CountriesList = () => {
-  const { loading, error, data } = useQuery(GET_COUNTRIES);
+  const { loading, error, data } = useQuery<{ countries: Country[] }>(
+    GET_COUNTRIES_LIST
+  );
+  const [selectedCountry, setSelectedCountry] = useState<Country | null>(null);
 
   if (loading) return <div className="text-center p-4">Loading...</div>;
   if (error)
@@ -27,10 +18,14 @@ const CountriesList = () => {
     <div className="bg-white dark:bg-gray-900 p-4 rounded-lg shadow-sm">
       <h2 className="text-xl font-semibold mb-4">Countries List</h2>
       <div className="grid gap-4">
-        {data.countries.slice(0, 10).map((country: any) => (
+        {data?.countries.map((country) => (
           <div
             key={country.code}
-            className="p-4 border border-gray-200 dark:border-gray-700 rounded-lg"
+            className="p-4 border border-gray-200 dark:border-gray-700 rounded-lg cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors"
+            onClick={() => {
+              console.log('hola');
+              setSelectedCountry(country);
+            }}
           >
             <h3 className="font-semibold">{country.name}</h3>
             <p className="text-sm text-gray-600 dark:text-gray-400">
@@ -42,12 +37,16 @@ const CountriesList = () => {
               </p>
             )}
             <p className="text-sm text-gray-600 dark:text-gray-400">
-              Languages:{' '}
-              {country.languages.map((lang: any) => lang.name).join(', ')}
+              Languages: {country.languages.map((lang) => lang.name).join(', ')}
             </p>
           </div>
         ))}
       </div>
+
+      <CountryModal
+        country={selectedCountry}
+        onClose={() => setSelectedCountry(null)}
+      />
     </div>
   );
 };

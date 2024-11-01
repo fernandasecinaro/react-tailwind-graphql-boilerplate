@@ -2,9 +2,8 @@
 
 import { ApolloProvider } from '@apollo/client';
 import { client } from '@/lib/apollo-client';
-import Sidebar from '@/components/ui/sidebar';
-import CountriesChart from '@/components/dashboard/countries-chart';
-import CountriesList from '@/components/dashboard/countries-list';
+import Sidebar from '@/components/ui/molecules/sidebar';
+import CountriesList from '@/features/dashboard/components/countries-list';
 import { usePathname } from 'next/navigation';
 
 export default function Home() {
@@ -18,7 +17,6 @@ export default function Home() {
           <div className="max-w-6xl mx-auto">
             <h1 className="text-2xl font-bold mb-8">Countries Dashboard</h1>
             <div className="grid gap-8">
-              {/* <CountriesChart /> */}
               <CountriesList />
             </div>
           </div>

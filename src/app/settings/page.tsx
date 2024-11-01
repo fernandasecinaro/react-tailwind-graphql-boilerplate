@@ -1,6 +1,6 @@
 'use client';
 
-import Sidebar from '@/components/ui/sidebar';
+import Sidebar from '@/components/ui/molecules/sidebar';
 import { usePathname } from 'next/navigation';
 
 export default function Settings() {
