@@ -2,7 +2,12 @@ import Button from '@/components/ui/atoms/button';
 import useDeleteBook from '../hooks/useDeleteBook';
 import { Book } from '@/__generated__/graphql';
 
-const BookItem = ({ book }: { book: Book }) => {
+interface BookItemProps {
+  book: Book;
+  onOpenModal: (book: Book) => void;
+}
+
+const BookItem: React.FC<BookItemProps> = ({ book, onOpenModal }) => {
   const [mutateFunction] = useDeleteBook();
 
   const handleRemoveBook = async () => {
@@ -15,7 +20,10 @@ const BookItem = ({ book }: { book: Book }) => {
   };
 
   return (
-    <div className="p-4 border border-gray-200 rounded-lg">
+    <div
+      onClick={() => onOpenModal(book)}
+      className="p-4 border border-gray-200 rounded-lg cursor-pointer"
+    >
       <div className="flex justify-between items-center">
         <div>
           <h2 className="text-lg font-bold">{book.title}</h2>
