@@ -1,6 +1,6 @@
 import Button from '@/components/ui/atoms/button';
-import { Book } from '../types/book';
 import useDeleteBook from '../hooks/useDeleteBook';
+import { Book } from '@/__generated__/graphql';
 
 const BookItem = ({ book }: { book: Book }) => {
   const [mutateFunction] = useDeleteBook();
