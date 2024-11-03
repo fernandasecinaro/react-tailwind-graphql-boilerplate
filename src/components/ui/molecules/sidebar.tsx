@@ -4,16 +4,17 @@ interface SidebarProps {
   activeRoute: string;
 }
 
-const Sidebar = ({ activeRoute }: SidebarProps) => {
-  const menuItems = [
-    { path: '/', label: 'Dashboard' },
-    { path: '/settings', label: 'Settings' },
-  ];
+const menuItems = [
+  { path: '/', label: 'Dashboard' },
+  { path: '/users', label: 'Users' },
+  { path: '/settings', label: 'Settings' },
+];
 
+const Sidebar = ({ activeRoute }: SidebarProps) => {
   return (
     <div className="w-64 h-screen bg-gray-100 dark:bg-gray-800 p-4 fixed left-0 top-0">
       <div className="mb-8">
-        <h1 className="text-xl font-bold">My App</h1>
+        <h1 className="text-xl font-bold">Trupropel App</h1>
       </div>
       <nav>
         {menuItems.map((item) => (
