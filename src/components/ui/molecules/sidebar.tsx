@@ -5,8 +5,7 @@ interface SidebarProps {
 }
 
 const menuItems = [
-  { path: '/', label: 'Dashboard' },
-  { path: '/users', label: 'Users' },
+  { path: '/', label: 'Books' },
   { path: '/settings', label: 'Settings' },
 ];
 
