@@ -2,6 +2,7 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { useAddBook } from '../hooks/useAddBook';
+import Button from '@/components/ui/atoms/button';
 
 const bookSchema = z.object({
   title: z.string().min(1, 'Title is required'),
@@ -151,20 +152,10 @@ const AddBookModal = ({ isOpen, onClose, onSuccess }: AddBookModalProps) => {
           )}
 
           <div className="flex justify-end gap-4 mt-6">
-            <button
-              type="button"
-              onClick={onClose}
-              className="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-600 dark:hover:bg-gray-600"
-            >
-              Cancel
-            </button>
-            <button
-              type="submit"
-              disabled={loading}
-              className="px-4 py-2 text-sm font-medium text-white bg-blue-600 border border-transparent rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed"
-            >
+            <Button onClick={onClose}>Cancel</Button>
+            <Button disabled={loading}>
               {loading ? 'Adding...' : 'Add Book'}
-            </button>
+            </Button>
           </div>
         </form>
       </div>

@@ -37,9 +37,11 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/bui
 
 ## Features included
 
+- CRUD app
 - Graphql (Apollo and Codegen)
 - Tailwind
 - React hook form and Zod
+- Feature splitting (horizontal)
 
 ## Features to add
 

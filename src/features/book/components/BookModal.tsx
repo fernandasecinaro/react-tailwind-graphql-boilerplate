@@ -1,12 +1,13 @@
 import { Book } from '@/__generated__/graphql';
 
 interface BookModalProps {
+  isOpen: boolean;
   book: Book | null;
   onClose: () => void;
 }
 
-const BookModal: React.FC<BookModalProps> = ({ book, onClose }) => {
-  if (!book) return null;
+const BookModal: React.FC<BookModalProps> = ({ book, onClose, isOpen }) => {
+  if (!isOpen || !book) return null;
 
   const handleContentClick = (e: React.MouseEvent) => {
     e.stopPropagation();
@@ -46,7 +47,16 @@ const BookModal: React.FC<BookModalProps> = ({ book, onClose }) => {
           </button>
         </div>
 
-        <div className="space-y-4"></div>
+        <div className="space-y-4 gap-y-1">
+          <div className="flex gap-x-2 items-center">
+            <h3 className="text-lg font-bold">Author</h3>
+            <p className="text-sm text-gray-500">{book.author}</p>
+          </div>
+          <div className="flex gap-x-2 items-center">
+            <h3 className="text-lg font-bold">Year</h3>
+            <p className="text-sm text-gray-500">{book.year}</p>
+          </div>
+        </div>
       </div>
     </div>
   );
