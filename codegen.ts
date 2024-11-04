@@ -1,7 +1,8 @@
 import { CodegenConfig } from '@graphql-codegen/cli';
+import './envConfig.ts';
 
 const config: CodegenConfig = {
-  schema: 'http://localhost:4000',
+  schema: process.env.NEXT_PUBLIC_API_ENDPOINT,
   documents: ['src/**/*.{ts,tsx}'],
   generates: {
     './src/__generated__/': {
