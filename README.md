@@ -42,8 +42,17 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/bui
 - Tailwind
 - React hook form and Zod
 - Feature splitting (horizontal)
+- Pagination
 
 ## Features to add
 
 - Internationalization (i18n)
 - Design system
+
+## Docs
+
+- Pagination: https://www.apollographql.com/docs/react/v2/data/pagination#offset-based
+
+- Codegen: https://www.apollographql.com/docs/react/development-testing/static-typing
+
+- Graphql: https://graphql.org/learn/
