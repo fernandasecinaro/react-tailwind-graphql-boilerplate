@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Book } from '@/__generated__/graphql';
 import Button from '@/components/ui/atoms/button';
 import AddBookModal from '@/features/book/components/AddBookModal';
@@ -9,8 +9,13 @@ import BookModal from '@/features/book/components/BookModal';
 import useBooks from '@/features/book/hooks/useBooks';
 import EditBookModal from '@/features/book/components/EditBookModal';
 
+const LIMIT = 6;
+
 export default function Home() {
-  const { loading, error, data } = useBooks();
+  const { loading, error, data, fetchMore } = useBooks({
+    offset: 0,
+    limit: LIMIT,
+  });
   const [selectedBook, setSelectedBook] = useState<Book | null>(null);
   const [isAddBookModalOpen, setIsAddBookModalOpen] = useState(false);
   const [isBookModalOpen, setIsBookModalOpen] = useState(false);
@@ -26,6 +31,36 @@ export default function Home() {
     setIsEditBookModalOpen(true);
   };
 
+  useEffect(() => {
+    const handleScroll = () => {
+      if (
+        window.innerHeight + document.documentElement.scrollTop >=
+        document.documentElement.offsetHeight
+      ) {
+        fetchMore({
+          variables: { offset: data?.books.results.length },
+          updateQuery: (prev, { fetchMoreResult }) => {
+            if (!fetchMoreResult) return prev;
+            return Object.assign({}, prev, {
+              books: {
+                ...prev.books,
+                results: [
+                  ...prev.books.results,
+                  ...fetchMoreResult.books.results,
+                ],
+              },
+            });
+          },
+        });
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, [fetchMore, data?.books.results.length]);
+
   if (loading) return <div>Loading...</div>;
   if (error) return <div>Error: {error.message}</div>;
 
@@ -36,7 +71,7 @@ export default function Home() {
         <Button onClick={() => setIsAddBookModalOpen(true)}>Add Book</Button>
       </div>
       <div className="grid gap-8">
-        {data?.books.map((book) => (
+        {data?.books.results.map((book) => (
           <BookItem
             key={book.id}
             book={book}
