@@ -67,7 +67,7 @@ export default function Home() {
   return (
     <div className="max-w-6xl mx-auto">
       <div className="flex justify-between items-center mb-8">
-        <h1 className="text-2xl font-bold ">Books Dashboard</h1>
+        <h1 className="text-2xl font-bold">Books Dashboard</h1>
         <Button onClick={() => setIsAddBookModalOpen(true)}>Add Book</Button>
       </div>
       <div className="grid gap-8">
