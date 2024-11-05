@@ -1,7 +1,8 @@
 'use client';
 
-import { AuthProvider } from '@/features/auth/AuthContext';
+import { ApolloProvider } from '@apollo/client';
+import { client } from '@/lib/apollo-client';
 
 export function Providers({ children }: { children: React.ReactNode }) {
-  return <AuthProvider>{children}</AuthProvider>;
+  return <ApolloProvider client={client}>{children}</ApolloProvider>;
 }
