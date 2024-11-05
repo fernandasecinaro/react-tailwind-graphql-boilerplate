@@ -5,6 +5,7 @@ import { FilterCharacter } from '@/__generated__/graphql';
 const useCharacters = (filter?: FilterCharacter, page?: number) => {
   return useQuery(GET_CHARACTERS, {
     variables: { filter, page },
+    notifyOnNetworkStatusChange: true,
   });
 };
 

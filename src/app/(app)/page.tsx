@@ -5,8 +5,10 @@ import CharacterItem from '@/features/characters/components/CharacterItem';
 import useCharacters from '@/features/characters/hooks/useCharacters';
 import { useDeferredValue, useEffect, useState } from 'react';
 import ClipLoader from 'react-spinners/ClipLoader';
+import { useInView } from 'react-intersection-observer';
 
 export default function Home() {
+  const { ref, inView } = useInView();
   const [search, setSearch] = useState('');
   const deferredQuery = useDeferredValue(search);
   const { data, loading, error, fetchMore } = useCharacters(
@@ -17,45 +19,28 @@ export default function Home() {
   );
 
   useEffect(() => {
-    const handleScroll = () => {
-      if (
-        window.innerHeight + document.documentElement.scrollTop >=
-        document.documentElement.offsetHeight
-      ) {
-        fetchMore({
-          variables: { page: data?.characters?.info?.next },
-          updateQuery: (prev, { fetchMoreResult }) => {
-            if (!fetchMoreResult || !data?.characters?.info?.next) return prev;
+    if (inView && !loading) {
+      console.log('Fire!');
+      fetchMore({
+        variables: { page: data?.characters?.info?.next },
+        updateQuery: (prev, { fetchMoreResult }) => {
+          if (!fetchMoreResult || !data?.characters?.info?.next) return prev;
 
-            return {
-              ...prev,
-              characters: {
-                ...prev.characters,
-                results: [
-                  ...(prev.characters?.results || []),
-                  ...(fetchMoreResult.characters?.results || []),
-                ],
-                info: fetchMoreResult.characters?.info,
-              },
-            };
-          },
-        });
-      }
-    };
-
-    window.addEventListener('scroll', handleScroll);
-    return () => {
-      window.removeEventListener('scroll', handleScroll);
-    };
-  }, [
-    fetchMore,
-    data?.characters?.results?.length,
-    data?.characters?.info?.next,
-  ]);
+          return {
+            characters: {
+              results: [
+                ...(prev.characters?.results || []),
+                ...(fetchMoreResult?.characters?.results || []),
+              ],
+              info: { ...fetchMoreResult.characters?.info },
+            },
+          };
+        },
+      });
+    }
+  }, [data?.characters?.info?.next, fetchMore, inView, loading]);
 
   if (error) return <div>Error: {error.message}</div>;
-
-  console.log(loading, 'loading');
 
   return (
     <div className="max-w-6xl mx-auto flex flex-col gap-4">
@@ -65,8 +50,16 @@ export default function Home() {
 
       <Input value={search} onChange={(e) => setSearch(e.target.value)} />
       <div className="grid gap-8">
-        {data?.characters?.results?.map((character) => {
-          if (!character) return null;
+        {data?.characters?.results?.map((character, index) => {
+          if (data?.characters?.results?.length === index + 1) {
+            return (
+              <CharacterItem
+                key={character?.id}
+                character={character}
+                ref={ref}
+              />
+            );
+          }
           return <CharacterItem key={character?.id} character={character} />;
         })}
         {loading && <ClipLoader />}
