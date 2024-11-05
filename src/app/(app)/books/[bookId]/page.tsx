@@ -30,11 +30,6 @@ export default function BookDetail({
     });
   };
 
-  const handleEditBook = (e: React.MouseEvent) => {
-    e.stopPropagation();
-    // onOpenModal(book);
-  };
-
   return (
     <div className="p-4 border border-gray-200 rounded-lg">
       <div className="flex justify-between items-center">
@@ -45,7 +40,6 @@ export default function BookDetail({
         </div>
 
         <div className="flex items-center gap-2">
-          <Button onClick={handleEditBook}>Edit</Button>
           <Button onClick={handleRemoveBook}>Remove</Button>
         </div>
       </div>
